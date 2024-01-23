@@ -6,7 +6,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "ci:format": "prettier --check .",
-    "01-read-file": "node 01-read-file/index.js"
+    "01-read-file": "node __dirname/index.js"
   },
   "author": "evgeniimal",
   "license": "ISC",
