@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("node:path");
-const { stdin } = process;
+const { stdout } = require("process");
 
 const readableStream = fs.createReadStream(`${__dirname}/text.txt`, "utf-8");
-readableStream.on("data", (chunk) => stdin.write(chunk));
+readableStream.on("data", (chunk) => stdout.write(chunk));
