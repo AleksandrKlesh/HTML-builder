@@ -10,7 +10,8 @@
     "02-write-file": "node __dirname/index.js",
     "03-files-in-folder": "node __dirname/index.js",
     "04-copy-directory": "node __dirname/index.js",
-    "05-merge-styles": "node __dirname/index.js"
+    "05-merge-styles": "node __dirname/index.js",
+    "06-build-page": "node __dirname/index.js"
   },
   "author": "evgeniimal",
   "license": "ISC",
