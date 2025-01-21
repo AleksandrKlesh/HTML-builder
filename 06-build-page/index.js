@@ -6,7 +6,28 @@ fs.mkdir(destination, {recursive: true});
 
 
 async function copyAssets() {
-  
+  try {
+    const assetsSource = path.join(__dirname, 'assets');
+    const assetsDestination = path.join(destination, 'assets');
+
+    const recursiveCopy = async (source, destination) => {
+      const stats = await fs.stat(source);
+      if (stats.isDirectory()) {
+        await fs.mkdir(destination, {recursive: true});
+        const files = await fs.readdir(source);
+        for (const file of files) {
+          const currentSource = path.join(source, file);
+          const currentDestination = path.join(destination, file);
+          await recursiveCopy(currentSource, currentDestination);
+        }
+      } else {
+        await fs.copyFile(currentSource, currentDestination);
+      }
+    }
+    await recursiveCopy(assetsSource, assetsDestination);
+  } catch(err) {
+    console.error(err);
+  }
 }
 
 async function mergeLayout() {
@@ -28,6 +49,7 @@ async function mergeLayout() {
 
 async function mergeStyles() {
   try {
+    const folder = path.join(__dirname, 'styles');
     const files = await fs.readdir(folder, {withFileTypes: true});
     let chunks = [];
     for (const file of files) {
@@ -43,4 +65,9 @@ async function mergeStyles() {
   }
 }
 
-mergeStyles();
+
+(async () => {
+  await copyAssets();
+  await mergeLayout();
+  await mergeStyles();
+}) ()
