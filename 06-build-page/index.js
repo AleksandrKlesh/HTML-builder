@@ -35,7 +35,6 @@ async function mergeLayout() {
     const componentsFolder = path.join(__dirname, 'components');
     const files = await fs.readdir(componentsFolder);
     for (const file of files) {
-      console.log(__dirname);
       const fileName = file.slice(0, file.lastIndexOf('.'));
       const component = await fs.readFile(path.join(componentsFolder, file), 'utf-8');
       template = template.replace(`{{${fileName}}}`, component);
@@ -46,7 +45,6 @@ async function mergeLayout() {
   }
 }
 
-
 async function mergeStyles() {
   try {
     const folder = path.join(__dirname, 'styles');
@@ -55,11 +53,12 @@ async function mergeStyles() {
     for (const file of files) {
       if (path.extname(file.name) === '.css') {
         const filePath = path.join(folder, file.name);
-        const chunk = await fs.readFile(filePath);
+        const chunk = await fs.readFile(filePath, 'utf-8');
         chunks.push(chunk);
       }
     }
-    await fs.writeFile(destination, ...chunks);
+    chunks = chunks.join('\n');
+    await fs.writeFile(path.join(destination, 'style.css'), chunks);
   } catch(err) {
     console.error(err);
   }
