@@ -4,7 +4,6 @@ const destination = path.join(__dirname, 'project-dist');
 
 fs.mkdir(destination, {recursive: true});
 
-
 async function copyAssets() {
   try {
     const assetsSource = path.join(__dirname, 'assets');
@@ -21,7 +20,7 @@ async function copyAssets() {
           await recursiveCopy(currentSource, currentDestination);
         }
       } else {
-        await fs.copyFile(currentSource, currentDestination);
+        await fs.copyFile(source, destination);
       }
     }
     await recursiveCopy(assetsSource, assetsDestination);
@@ -32,15 +31,16 @@ async function copyAssets() {
 
 async function mergeLayout() {
   try {
-    const template = await fs.readFile(path.join(__dirname, 'template.html'));
-    const components = {};
-    const files = await fs.readdir(path.join(__dirname, 'components'));
+    let template = await fs.readFile(path.join(__dirname, 'template.html'), 'utf-8');
+    const componentsFolder = path.join(__dirname, 'components');
+    const files = await fs.readdir(componentsFolder);
     for (const file of files) {
-      const fileName = file.name.slice(0, file.name.lastIndexOf('.'));
-      components[fileName] = await fs.readFile(file.name, 'utf-8');
-      template.replace(`{{${fileName}}}`, components[fileName]);
+      console.log(__dirname);
+      const fileName = file.slice(0, file.lastIndexOf('.'));
+      const component = await fs.readFile(path.join(componentsFolder, file), 'utf-8');
+      template = template.replace(`{{${fileName}}}`, component);
     }
-    await fs.writeFile(path.join(destination, 'index.html'));
+    await fs.writeFile(path.join(destination, 'index.html'), template);
   } catch(err) {
     console.error(err);
   }
