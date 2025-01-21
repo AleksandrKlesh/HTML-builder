@@ -22,11 +22,11 @@ async function mergeStyles() {
     for (const file of files) {
       if (path.extname(file.name) === '.css') {
         const filePath = path.join(folder, file.name);
-        const chunk = await fs.readFile(filePath);
+        const chunk = await fs.readFile(filePath, 'utf-8');
         chunks.push(chunk);
       }
     }
-    await fs.writeFile(destination, ...chunks);
+    await fs.writeFile(destination, chunks);
   } catch(err) {
     console.error(err);
   }
