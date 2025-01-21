@@ -1,7 +1,19 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const folder = path.join(__dirname, 'styles');
+// const destinationFolder = path.join(__dirname, 'project-dist');
 const destination = path.join(__dirname, 'project-dist', 'bundle.css');
+
+// async function updateBundle() {
+//   try {
+//     const files = await fs.readdir(destinationFolder, {withFileTypes: false});
+//     if (files.includes('bundle.css')) {
+//       await fs.rm(destination, {recursive: true});
+//     }
+//   } catch(err) {
+//     console.error(err);
+//   }
+// }
 
 async function mergeStyles() {
   try {
