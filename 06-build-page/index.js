@@ -55,12 +55,12 @@ async function mergeStyles() {
     for (const file of files) {
       if (path.extname(file.name) === '.css') {
         const filePath = path.join(folder, file.name);
-        const chunk = await fs.readFile(filePath);
+        const chunk = await fs.readFile(filePath, 'utf-8');
         chunks.push(chunk);
       }
     }
-    // chunks = chunks.join('\n');
-    await fs.writeFile(path.join(destination, 'style.css'), ...chunks);
+    chunks = chunks.join('\n');
+    await fs.writeFile(path.join(destination, 'style.css'), chunks);
   } catch(err) {
     console.error(err);
   }
