@@ -8,10 +8,14 @@ stdout.write("Hi, what's your name? Enter here: ");
 stdin.on('data', (data) => {
   const input = data.toString().trim();
   if (input.toLowerCase() === 'exit') {
+    console.log('Goodbye!');
     process.exit()
   }
   writableStream.write(input + '\n');
   stdout.write('Enter something else: ');
 })
 
-stdin.on('SIGINT', () => process.exit());
+process.on('SIGINT', () => {
+  console.log('\nGoodbye!');
+  process.exit();
+});
